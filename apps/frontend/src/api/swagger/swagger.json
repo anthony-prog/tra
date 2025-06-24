@@ -1,0 +1,4165 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/asignacion-transporte/vehiculos": {
+      "post": {
+        "description": "Crea un nuevo vehículo en el sistema con toda la información requerida",
+        "operationId": "AsignacionTransporteController_createVehiculo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Datos del vehículo a crear",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVehiculoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vehículo creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/VehiculoResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o vehículo ya existe"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Crear un nuevo vehículo",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      },
+      "get": {
+        "description": "Obtiene una lista paginada de todos los vehículos registrados",
+        "operationId": "AsignacionTransporteController_findAllVehiculos",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Número de página (por defecto: 1)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Elementos por página (por defecto: 10)",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehículos obtenidos exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/VehiculoListResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener todos los vehículos",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      }
+    },
+    "/api/asignacion-transporte/vehiculos/{id}": {
+      "get": {
+        "description": "Obtiene la información detallada de un vehículo específico",
+        "operationId": "AsignacionTransporteController_findVehiculoById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID único del vehículo",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehículo encontrado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/VehiculoResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vehículo no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener un vehículo por ID",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      },
+      "patch": {
+        "description": "Actualiza la información de un vehículo existente",
+        "operationId": "AsignacionTransporteController_updateVehiculo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID único del vehículo",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Datos del vehículo a actualizar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateVehiculoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vehículo actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/VehiculoResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o vehículo ya existe"
+          },
+          "404": {
+            "description": "Vehículo no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Actualizar un vehículo",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      },
+      "delete": {
+        "description": "Elimina un vehículo del sistema (cambia su estado a inactivo)",
+        "operationId": "AsignacionTransporteController_removeVehiculo",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID único del vehículo",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehículo eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/EmptyResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Vehículo no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Eliminar un vehículo",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      }
+    },
+    "/api/asignacion-transporte/conductores": {
+      "post": {
+        "description": "Crea un nuevo conductor en el sistema con toda la información requerida",
+        "operationId": "AsignacionTransporteController_createConductor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Datos del conductor a crear",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConductorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conductor creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ConductorResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o conductor ya existe"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Crear un nuevo conductor",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      },
+      "get": {
+        "description": "Obtiene una lista paginada de todos los conductores registrados",
+        "operationId": "AsignacionTransporteController_findAllConductores",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Número de página (por defecto: 1)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Elementos por página (por defecto: 10)",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conductores obtenidos exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ConductorListResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener todos los conductores",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      }
+    },
+    "/api/asignacion-transporte/conductores/{id}": {
+      "get": {
+        "description": "Obtiene la información detallada de un conductor específico",
+        "operationId": "AsignacionTransporteController_findConductorById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID único del conductor",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conductor encontrado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ConductorResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conductor no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener un conductor por ID",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      },
+      "patch": {
+        "description": "Actualiza la información de un conductor existente",
+        "operationId": "AsignacionTransporteController_updateConductor",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID único del conductor",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Datos del conductor a actualizar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateConductorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conductor actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ConductorResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o conductor ya existe"
+          },
+          "404": {
+            "description": "Conductor no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Actualizar un conductor",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      },
+      "delete": {
+        "description": "Elimina un conductor del sistema (cambia su estado a inactivo)",
+        "operationId": "AsignacionTransporteController_removeConductor",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID único del conductor",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conductor eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/EmptyResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conductor no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Eliminar un conductor",
+        "tags": [
+          "Asignación de Transporte"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/monitoreo/{despachoId}": {
+      "get": {
+        "description": "Endpoint SSE (Server-Sent Events) para recibir actualizaciones en tiempo real de un despacho específico.",
+        "operationId": "MonitoreoEnRutaController_monitoreoEnTiempoReal",
+        "parameters": [
+          {
+            "name": "despachoId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conexión SSE establecida correctamente",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data",
+                    "type",
+                    "id",
+                    "retry"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/MonitoreoDto"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "monitoreo"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "retry": {
+                      "type": "number",
+                      "example": 5000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Suscripción a datos de monitoreo",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/despachos": {
+      "get": {
+        "description": "Obtiene los despachos paginados con ordenamiento por fecha de creación",
+        "operationId": "MonitoreoEnRutaController_getDespachosPaginados",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Despachos obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "items",
+                        "meta"
+                      ],
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DespachoDto"
+                          }
+                        },
+                        "meta": {
+                          "type": "object",
+                          "required": [
+                            "total",
+                            "page",
+                            "limit",
+                            "totalPages",
+                            "hasNextPage",
+                            "hasPreviousPage"
+                          ],
+                          "properties": {
+                            "total": {
+                              "type": "number",
+                              "example": 100
+                            },
+                            "page": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "limit": {
+                              "type": "number",
+                              "example": 10
+                            },
+                            "totalPages": {
+                              "type": "number",
+                              "example": 10
+                            },
+                            "hasNextPage": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "hasPreviousPage": {
+                              "type": "boolean",
+                              "example": false
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener despachos con paginación",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/ultimo-monitoreo/{despachoId}": {
+      "get": {
+        "description": "Obtiene el último monitoreo de un despacho",
+        "operationId": "MonitoreoEnRutaController_getUltimoMonitoreo",
+        "parameters": [
+          {
+            "name": "despachoId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Último monitoreo obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/UltimoMonitoreoDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No se encontró el despacho o no tiene monitoreos registrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener el último monitoreo de un despacho",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/incidencia": {
+      "post": {
+        "description": "Crea una incidencia",
+        "operationId": "MonitoreoEnRutaController_createIncidencia",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateIncidenciaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Incidencia creada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Crear una incidencia",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/incidencia/{incidenciaId}": {
+      "patch": {
+        "description": "Actualiza el estado de una incidencia",
+        "operationId": "MonitoreoEnRutaController_updateIncidenciaState",
+        "parameters": [
+          {
+            "name": "incidenciaId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateIncidenciaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Incidencia actualizada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Actualizar el estado de una incidencia",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/solucionar-incidencia/{incidenciaId}": {
+      "post": {
+        "description": "Soluciona una incidencia",
+        "operationId": "MonitoreoEnRutaController_solucionarIncidencia",
+        "parameters": [
+          {
+            "name": "incidenciaId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolucionIncidenciaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Incidencia solucionada correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Solucionar una incidencia",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/incidencias": {
+      "get": {
+        "description": "Obtiene las incidencias paginadas con ordenamiento por fecha de registro",
+        "operationId": "MonitoreoEnRutaController_getIncidenciasPaginadas",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Incidencias obtenidas correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "items",
+                        "meta"
+                      ],
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/IncidenciaDto"
+                          }
+                        },
+                        "meta": {
+                          "type": "object",
+                          "required": [
+                            "total",
+                            "page",
+                            "limit",
+                            "totalPages",
+                            "hasNextPage",
+                            "hasPreviousPage"
+                          ],
+                          "properties": {
+                            "total": {
+                              "type": "number",
+                              "example": 100
+                            },
+                            "page": {
+                              "type": "number",
+                              "example": 1
+                            },
+                            "limit": {
+                              "type": "number",
+                              "example": 10
+                            },
+                            "totalPages": {
+                              "type": "number",
+                              "example": 10
+                            },
+                            "hasNextPage": {
+                              "type": "boolean",
+                              "example": false
+                            },
+                            "hasPreviousPage": {
+                              "type": "boolean",
+                              "example": false
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener incidencias con paginación",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/despachos/{despachoId}": {
+      "get": {
+        "description": "Obtiene los datos básicos de un despacho específico",
+        "operationId": "MonitoreoEnRutaController_getDespachoDatos",
+        "parameters": [
+          {
+            "name": "despachoId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Datos básicos del despacho obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/DespachoDatosDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener datos básicos de un despacho",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/despachos/{despachoId}/puntos-ruta": {
+      "get": {
+        "description": "Obtiene los puntos de la ruta de un despacho específico",
+        "operationId": "MonitoreoEnRutaController_getPuntosRuta",
+        "parameters": [
+          {
+            "name": "despachoId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Puntos de la ruta obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PuntoRutaDto"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener puntos de la ruta de un despacho",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/despachos/{despachoId}/puntos-visitados": {
+      "get": {
+        "description": "Obtiene los puntos visitados de un despacho específico",
+        "operationId": "MonitoreoEnRutaController_getPuntosVisitados",
+        "parameters": [
+          {
+            "name": "despachoId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Puntos visitados obtenidos correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PuntoVisitadoDto"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener puntos visitados de un despacho",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/incidencias/{incidenciaId}": {
+      "get": {
+        "description": "Obtiene una incidencia específica",
+        "operationId": "MonitoreoEnRutaController_getIncidenciaDatos",
+        "parameters": [
+          {
+            "name": "incidenciaId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Incidencia obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/IncidenciaDatosDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener una incidencia",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/monitoreo-ruta/incidencias/{incidenciaId}/relacionada": {
+      "get": {
+        "description": "Obtiene el historial de una incidencia específica",
+        "operationId": "MonitoreoEnRutaController_getHistorialIncidencia",
+        "parameters": [
+          {
+            "name": "incidenciaId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial de la incidencia obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/IncidenciaRelacionadaDto"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener el historial de una incidencia",
+        "tags": [
+          "Monitoreo en Ruta"
+        ]
+      }
+    },
+    "/api/gestion-despacho": {
+      "post": {
+        "description": "Inserta un nuevo despacho en la base de datos",
+        "operationId": "GestionDespachoController_insertarDespacho",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Despacho a insertar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDespachoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Despacho insertado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Insertar un despacho",
+        "tags": [
+          "GestionDespacho"
+        ]
+      }
+    },
+    "/api/gestion-despacho/rechazo": {
+      "post": {
+        "description": "Registra un nuevo rechazo de despacho en la base de datos",
+        "operationId": "GestionDespachoController_registrarRechazoDespacho",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Rechazo a registrar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRechazoDespachoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rechazo de despacho registrado correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Registrar rechazo de despacho",
+        "tags": [
+          "GestionDespacho"
+        ]
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "description": "Crea un nuevo usuario con contraseña encriptada",
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Datos del usuario a registrar",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario registrado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Registrar nuevo usuario",
+        "tags": [
+          "Autenticación"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "Autentica un usuario y devuelve un token JWT que contiene el ID del usuario",
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Credenciales de acceso",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login exitoso - Token JWT generado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/LoginResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Iniciar sesión",
+        "tags": [
+          "Autenticación"
+        ]
+      }
+    },
+    "/api/auth/profile": {
+      "get": {
+        "description": "Obtiene la información del usuario autenticado (solo admin, supervisor, operador y monitor)",
+        "operationId": "AuthController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Perfil del usuario obtenido exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/UserProfileDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido o expirado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso denegado - Rol insuficiente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Obtener perfil del usuario",
+        "tags": [
+          "Autenticación"
+        ]
+      }
+    },
+    "/api/auth/users": {
+      "get": {
+        "description": "Obtiene los primeros 10 usuarios con opción de búsqueda por nombre",
+        "operationId": "AuthController_searchUsers",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Término de búsqueda para filtrar por nombre de usuario",
+            "schema": {
+              "example": "admin",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Límite de usuarios a retornar (por defecto 10)",
+            "schema": {
+              "example": 10,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuarios obtenidos exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/UserSearchDto"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido o expirado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Acceso denegado - Rol insuficiente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Buscar usuarios",
+        "tags": [
+          "Autenticación"
+        ]
+      }
+    },
+    "/api/control-entrega/ordenes-pendientes/{idUsuario}": {
+      "get": {
+        "description": "Obtiene todas las órdenes de entrega pendientes para un usuario específico",
+        "operationId": "OrdenesPendientesController_obtenerOrdenesPendientes",
+        "parameters": [
+          {
+            "name": "idUsuario",
+            "required": true,
+            "in": "path",
+            "description": "ID único del usuario",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Órdenes pendientes obtenidas exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operación exitosa"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/OrdenesPendientesResponseDto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID de usuario inválido o formato incorrecto"
+          },
+          "404": {
+            "description": "Usuario no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener órdenes pendientes de un usuario",
+        "tags": [
+          "Control de Entrega - Órdenes Pendientes"
+        ]
+      }
+    },
+    "/api/control-entrega/registrar-entrega": {
+      "put": {
+        "operationId": "RegistrarEntregaController_registrarEntrega",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrarEntregaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Registrar entrega completada",
+        "tags": [
+          "Control de Entrega"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API de Transporte",
+    "description": "API para el sistema de monitoreo de transporte",
+    "version": "1.0",
+    "contact": {
+
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Servidor Local"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "name": "JWT",
+        "description": "Ingresa tu token JWT",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "BaseResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Estado de la respuesta",
+            "example": true,
+            "nullable": false
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje de la respuesta",
+            "example": "Operación exitosa",
+            "nullable": false
+          },
+          "data": {
+            "type": "object",
+            "description": "Datos de la respuesta",
+            "additionalProperties": false,
+            "nullable": false
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data"
+        ]
+      },
+      "VehiculoResponseDto": {
+        "type": "object",
+        "properties": {
+          "id_vehiculo": {
+            "type": "string",
+            "description": "ID único del vehículo",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "placa": {
+            "type": "string",
+            "description": "Placa del vehículo",
+            "example": "ABC1234"
+          },
+          "marca": {
+            "type": "string",
+            "description": "Marca del vehículo",
+            "example": "Toyota"
+          },
+          "modelo": {
+            "type": "string",
+            "description": "Modelo del vehículo",
+            "example": "Hilux"
+          },
+          "año": {
+            "type": "number",
+            "description": "Año del vehículo",
+            "example": 2020
+          },
+          "color": {
+            "type": "string",
+            "description": "Color del vehículo",
+            "example": "Blanco"
+          },
+          "tipo_vehiculo": {
+            "type": "string",
+            "description": "Tipo de vehículo",
+            "enum": [
+              "camion",
+              "camioneta",
+              "furgoneta"
+            ],
+            "example": "camioneta"
+          },
+          "capacidad_carga": {
+            "type": "number",
+            "description": "Capacidad de carga en toneladas",
+            "example": 2.5
+          },
+          "capacidad_combustible": {
+            "type": "number",
+            "description": "Capacidad de combustible en litros",
+            "example": 80
+          },
+          "estado_vehiculo": {
+            "type": "boolean",
+            "description": "Estado del vehículo",
+            "example": true
+          },
+          "numero_soat": {
+            "type": "string",
+            "description": "Número de SOAT",
+            "example": "1234567"
+          },
+          "fecha_vencimiento_soat": {
+            "type": "string",
+            "description": "Fecha de vencimiento del SOAT",
+            "example": "2024-12-31"
+          },
+          "fecha_registro": {
+            "type": "string",
+            "description": "Fecha de registro",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "gps_imei": {
+            "type": "string",
+            "description": "IMEI del GPS",
+            "example": "123456789012345"
+          },
+          "gps_estado": {
+            "type": "boolean",
+            "description": "Estado del GPS",
+            "example": true
+          },
+          "foto_vehiculo": {
+            "type": "object",
+            "description": "URL de la foto del vehículo",
+            "example": "https://example.com/foto.jpg",
+            "nullable": true
+          },
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario que registró el vehículo",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "required": [
+          "id_vehiculo",
+          "placa",
+          "marca",
+          "modelo",
+          "año",
+          "color",
+          "tipo_vehiculo",
+          "capacidad_carga",
+          "capacidad_combustible",
+          "estado_vehiculo",
+          "numero_soat",
+          "fecha_vencimiento_soat",
+          "fecha_registro",
+          "gps_imei",
+          "gps_estado",
+          "foto_vehiculo",
+          "id_usuario"
+        ]
+      },
+      "CreateVehiculoDto": {
+        "type": "object",
+        "properties": {
+          "placa": {
+            "type": "string",
+            "description": "Placa del vehículo",
+            "example": "ABC1234",
+            "maxLength": 7
+          },
+          "marca": {
+            "type": "string",
+            "description": "Marca del vehículo",
+            "example": "Toyota",
+            "maxLength": 15
+          },
+          "modelo": {
+            "type": "string",
+            "description": "Modelo del vehículo",
+            "example": "Hilux",
+            "maxLength": 15
+          },
+          "año": {
+            "type": "number",
+            "description": "Año del vehículo",
+            "example": 2020,
+            "minimum": 2000
+          },
+          "color": {
+            "type": "string",
+            "description": "Color del vehículo",
+            "example": "Blanco",
+            "maxLength": 15
+          },
+          "tipo_vehiculo": {
+            "type": "string",
+            "description": "Tipo de vehículo",
+            "enum": [
+              "camion",
+              "camioneta",
+              "furgoneta"
+            ],
+            "example": "camioneta"
+          },
+          "capacidad_carga": {
+            "type": "number",
+            "description": "Capacidad de carga en toneladas",
+            "example": 2.5,
+            "minimum": 0
+          },
+          "capacidad_combustible": {
+            "type": "number",
+            "description": "Capacidad de combustible en litros",
+            "example": 80,
+            "minimum": 0
+          },
+          "estado_vehiculo": {
+            "type": "boolean",
+            "description": "Estado del vehículo",
+            "example": true,
+            "default": true
+          },
+          "numero_soat": {
+            "type": "string",
+            "description": "Número de SOAT",
+            "example": "1234567",
+            "maxLength": 7
+          },
+          "fecha_vencimiento_soat": {
+            "type": "string",
+            "description": "Fecha de vencimiento del SOAT",
+            "example": "2024-12-31"
+          },
+          "gps_imei": {
+            "type": "string",
+            "description": "IMEI del GPS",
+            "example": "123456789012345",
+            "maxLength": 30
+          },
+          "gps_estado": {
+            "type": "boolean",
+            "description": "Estado del GPS",
+            "example": true,
+            "default": true
+          },
+          "foto_vehiculo": {
+            "type": "string",
+            "description": "URL de la foto del vehículo",
+            "example": "https://example.com/foto.jpg"
+          },
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario que registra el vehículo",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "required": [
+          "placa",
+          "marca",
+          "modelo",
+          "año",
+          "color",
+          "tipo_vehiculo",
+          "capacidad_carga",
+          "capacidad_combustible",
+          "estado_vehiculo",
+          "numero_soat",
+          "fecha_vencimiento_soat",
+          "gps_imei",
+          "gps_estado",
+          "id_usuario"
+        ]
+      },
+      "VehiculoListResponseDto": {
+        "type": "object",
+        "properties": {
+          "vehiculos": {
+            "description": "Lista de vehículos",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VehiculoResponseDto"
+            }
+          },
+          "total": {
+            "type": "number",
+            "description": "Total de vehículos",
+            "example": 10
+          },
+          "pagina": {
+            "type": "number",
+            "description": "Página actual",
+            "example": 1
+          },
+          "por_pagina": {
+            "type": "number",
+            "description": "Elementos por página",
+            "example": 10
+          }
+        },
+        "required": [
+          "vehiculos",
+          "total",
+          "pagina",
+          "por_pagina"
+        ]
+      },
+      "UpdateVehiculoDto": {
+        "type": "object",
+        "properties": {
+          "placa": {
+            "type": "string",
+            "description": "Placa del vehículo",
+            "example": "ABC1234",
+            "maxLength": 7
+          },
+          "marca": {
+            "type": "string",
+            "description": "Marca del vehículo",
+            "example": "Toyota",
+            "maxLength": 15
+          },
+          "modelo": {
+            "type": "string",
+            "description": "Modelo del vehículo",
+            "example": "Hilux",
+            "maxLength": 15
+          },
+          "año": {
+            "type": "number",
+            "description": "Año del vehículo",
+            "example": 2020,
+            "minimum": 2000
+          },
+          "color": {
+            "type": "string",
+            "description": "Color del vehículo",
+            "example": "Blanco",
+            "maxLength": 15
+          },
+          "tipo_vehiculo": {
+            "type": "string",
+            "description": "Tipo de vehículo",
+            "enum": [
+              "camion",
+              "camioneta",
+              "furgoneta"
+            ],
+            "example": "camioneta"
+          },
+          "capacidad_carga": {
+            "type": "number",
+            "description": "Capacidad de carga en toneladas",
+            "example": 2.5,
+            "minimum": 0
+          },
+          "capacidad_combustible": {
+            "type": "number",
+            "description": "Capacidad de combustible en litros",
+            "example": 80,
+            "minimum": 0
+          },
+          "estado_vehiculo": {
+            "type": "boolean",
+            "description": "Estado del vehículo",
+            "example": true
+          },
+          "numero_soat": {
+            "type": "string",
+            "description": "Número de SOAT",
+            "example": "1234567",
+            "maxLength": 7
+          },
+          "fecha_vencimiento_soat": {
+            "type": "string",
+            "description": "Fecha de vencimiento del SOAT",
+            "example": "2024-12-31"
+          },
+          "gps_imei": {
+            "type": "string",
+            "description": "IMEI del GPS",
+            "example": "123456789012345",
+            "maxLength": 30
+          },
+          "gps_estado": {
+            "type": "boolean",
+            "description": "Estado del GPS",
+            "example": true
+          },
+          "foto_vehiculo": {
+            "type": "string",
+            "description": "URL de la foto del vehículo",
+            "example": "https://example.com/foto.jpg"
+          }
+        }
+      },
+      "EmptyResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Estado de la respuesta",
+            "example": true,
+            "nullable": false
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje de la respuesta",
+            "example": "Operación exitosa",
+            "nullable": false
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "ConductorResponseDto": {
+        "type": "object",
+        "properties": {
+          "id_conductor": {
+            "type": "string",
+            "description": "ID único del conductor",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "DNI": {
+            "type": "string",
+            "description": "DNI del conductor",
+            "example": "12345678"
+          },
+          "nombre_conductor": {
+            "type": "string",
+            "description": "Nombre completo del conductor",
+            "example": "Juan Pérez García"
+          },
+          "telefono_conductor": {
+            "type": "string",
+            "description": "Teléfono del conductor",
+            "example": "987654321"
+          },
+          "email_conductor": {
+            "type": "string",
+            "description": "Email del conductor",
+            "example": "juan.perez@email.com"
+          },
+          "direccion_conductor": {
+            "type": "object",
+            "description": "Dirección del conductor",
+            "example": "Av. Arequipa 123, Lima",
+            "nullable": true
+          },
+          "estado_conductor": {
+            "type": "boolean",
+            "description": "Estado del conductor",
+            "example": true
+          },
+          "tipo_licencia": {
+            "type": "string",
+            "description": "Tipo de licencia",
+            "enum": [
+              "A",
+              "B",
+              "C"
+            ],
+            "example": "B"
+          },
+          "fecha_emision_licencia": {
+            "type": "string",
+            "description": "Fecha de emisión de la licencia",
+            "example": "2020-01-15"
+          },
+          "fecha_vencimiento_licencia": {
+            "type": "string",
+            "description": "Fecha de vencimiento de la licencia",
+            "example": "2025-01-15"
+          },
+          "fecha_nacimiento": {
+            "type": "string",
+            "description": "Fecha de nacimiento",
+            "example": "1990-05-20"
+          },
+          "fecha_registro": {
+            "type": "string",
+            "description": "Fecha de registro",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "genero": {
+            "type": "string",
+            "description": "Género del conductor",
+            "enum": [
+              "M",
+              "F",
+              "O"
+            ],
+            "example": "M"
+          },
+          "foto_conductor": {
+            "type": "object",
+            "description": "URL de la foto del conductor",
+            "example": "https://example.com/foto.jpg",
+            "nullable": true
+          },
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario que registró el conductor",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "required": [
+          "id_conductor",
+          "DNI",
+          "nombre_conductor",
+          "telefono_conductor",
+          "email_conductor",
+          "direccion_conductor",
+          "estado_conductor",
+          "tipo_licencia",
+          "fecha_emision_licencia",
+          "fecha_vencimiento_licencia",
+          "fecha_nacimiento",
+          "fecha_registro",
+          "genero",
+          "foto_conductor",
+          "id_usuario"
+        ]
+      },
+      "CreateConductorDto": {
+        "type": "object",
+        "properties": {
+          "DNI": {
+            "type": "string",
+            "description": "DNI del conductor",
+            "example": "12345678",
+            "pattern": "^[0-9]{8}$"
+          },
+          "nombre_conductor": {
+            "type": "string",
+            "description": "Nombre completo del conductor",
+            "example": "Juan Pérez García",
+            "maxLength": 60
+          },
+          "telefono_conductor": {
+            "type": "string",
+            "description": "Teléfono del conductor",
+            "example": "987654321",
+            "pattern": "^[0-9]{9}$"
+          },
+          "email_conductor": {
+            "type": "string",
+            "description": "Email del conductor",
+            "example": "juan.perez@email.com"
+          },
+          "direccion_conductor": {
+            "type": "string",
+            "description": "Dirección del conductor",
+            "example": "Av. Arequipa 123, Lima",
+            "maxLength": 120
+          },
+          "estado_conductor": {
+            "type": "boolean",
+            "description": "Estado del conductor",
+            "example": true,
+            "default": true
+          },
+          "tipo_licencia": {
+            "type": "string",
+            "description": "Tipo de licencia",
+            "enum": [
+              "A",
+              "B",
+              "C"
+            ],
+            "example": "B"
+          },
+          "fecha_emision_licencia": {
+            "type": "string",
+            "description": "Fecha de emisión de la licencia",
+            "example": "2020-01-15"
+          },
+          "fecha_vencimiento_licencia": {
+            "type": "string",
+            "description": "Fecha de vencimiento de la licencia",
+            "example": "2025-01-15"
+          },
+          "fecha_nacimiento": {
+            "type": "string",
+            "description": "Fecha de nacimiento",
+            "example": "1990-05-20"
+          },
+          "genero": {
+            "type": "string",
+            "description": "Género del conductor",
+            "enum": [
+              "M",
+              "F",
+              "O"
+            ],
+            "example": "M"
+          },
+          "foto_conductor": {
+            "type": "string",
+            "description": "URL de la foto del conductor",
+            "example": "https://example.com/foto.jpg"
+          },
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario que registra el conductor",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "required": [
+          "DNI",
+          "nombre_conductor",
+          "telefono_conductor",
+          "email_conductor",
+          "estado_conductor",
+          "tipo_licencia",
+          "fecha_emision_licencia",
+          "fecha_vencimiento_licencia",
+          "fecha_nacimiento",
+          "genero",
+          "id_usuario"
+        ]
+      },
+      "ConductorListResponseDto": {
+        "type": "object",
+        "properties": {
+          "conductores": {
+            "description": "Lista de conductores",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConductorResponseDto"
+            }
+          },
+          "total": {
+            "type": "number",
+            "description": "Total de conductores",
+            "example": 10
+          },
+          "pagina": {
+            "type": "number",
+            "description": "Página actual",
+            "example": 1
+          },
+          "por_pagina": {
+            "type": "number",
+            "description": "Elementos por página",
+            "example": 10
+          }
+        },
+        "required": [
+          "conductores",
+          "total",
+          "pagina",
+          "por_pagina"
+        ]
+      },
+      "UpdateConductorDto": {
+        "type": "object",
+        "properties": {
+          "DNI": {
+            "type": "string",
+            "description": "DNI del conductor",
+            "example": "12345678",
+            "pattern": "^[0-9]{8}$"
+          },
+          "nombre_conductor": {
+            "type": "string",
+            "description": "Nombre completo del conductor",
+            "example": "Juan Pérez García",
+            "maxLength": 60
+          },
+          "telefono_conductor": {
+            "type": "string",
+            "description": "Teléfono del conductor",
+            "example": "987654321",
+            "pattern": "^[0-9]{9}$"
+          },
+          "email_conductor": {
+            "type": "string",
+            "description": "Email del conductor",
+            "example": "juan.perez@email.com"
+          },
+          "direccion_conductor": {
+            "type": "string",
+            "description": "Dirección del conductor",
+            "example": "Av. Arequipa 123, Lima",
+            "maxLength": 120
+          },
+          "estado_conductor": {
+            "type": "boolean",
+            "description": "Estado del conductor",
+            "example": true
+          },
+          "tipo_licencia": {
+            "type": "string",
+            "description": "Tipo de licencia",
+            "enum": [
+              "A",
+              "B",
+              "C"
+            ],
+            "example": "B"
+          },
+          "fecha_emision_licencia": {
+            "type": "string",
+            "description": "Fecha de emisión de la licencia",
+            "example": "2020-01-15"
+          },
+          "fecha_vencimiento_licencia": {
+            "type": "string",
+            "description": "Fecha de vencimiento de la licencia",
+            "example": "2025-01-15"
+          },
+          "fecha_nacimiento": {
+            "type": "string",
+            "description": "Fecha de nacimiento",
+            "example": "1990-05-20"
+          },
+          "genero": {
+            "type": "string",
+            "description": "Género del conductor",
+            "enum": [
+              "M",
+              "F",
+              "O"
+            ],
+            "example": "M"
+          },
+          "foto_conductor": {
+            "type": "string",
+            "description": "URL de la foto del conductor",
+            "example": "https://example.com/foto.jpg"
+          }
+        }
+      },
+      "PaginatedResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Estado de la respuesta",
+            "example": true,
+            "nullable": false
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje de la respuesta",
+            "example": "Operación exitosa",
+            "nullable": false
+          },
+          "data": {
+            "type": "object",
+            "description": "Datos paginados",
+            "nullable": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "description": "Lista de elementos"
+              },
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "totalItems": {
+                    "type": "number",
+                    "example": 100
+                  },
+                  "itemCount": {
+                    "type": "number",
+                    "example": 10
+                  },
+                  "itemsPerPage": {
+                    "type": "number",
+                    "example": 10
+                  },
+                  "totalPages": {
+                    "type": "number",
+                    "example": 10
+                  },
+                  "currentPage": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "status",
+          "message",
+          "data"
+        ]
+      },
+      "TiempoEstimado": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "number",
+            "example": 1,
+            "description": "Días"
+          },
+          "hours": {
+            "type": "number",
+            "example": 1,
+            "description": "Horas"
+          },
+          "minutes": {
+            "type": "number",
+            "example": 15,
+            "description": "Minutos"
+          },
+          "seconds": {
+            "type": "number",
+            "example": 30,
+            "description": "Segundos"
+          },
+          "milliseconds": {
+            "type": "number",
+            "example": 30,
+            "description": "Milisegundos"
+          }
+        },
+        "required": [
+          "days",
+          "hours",
+          "minutes",
+          "seconds",
+          "milliseconds"
+        ]
+      },
+      "StopDto": {
+        "type": "object",
+        "properties": {
+          "nombre_destino": {
+            "type": "string",
+            "description": "Nombre del punto de destino",
+            "example": "Almacén Central"
+          },
+          "nombre_ruta": {
+            "type": "string",
+            "description": "Nombre de la ruta",
+            "example": "RUTA-001"
+          },
+          "orden_parada": {
+            "type": "number",
+            "description": "Orden de la parada",
+            "example": 1
+          }
+        },
+        "required": [
+          "nombre_destino",
+          "nombre_ruta",
+          "orden_parada"
+        ]
+      },
+      "DespachoDto": {
+        "type": "object",
+        "properties": {
+          "id_despacho": {
+            "type": "string",
+            "description": "ID único del despacho",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "fecha_despacho": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Fecha y hora del despacho",
+            "example": "2024-03-20T10:00:00Z"
+          },
+          "estado_recorrido": {
+            "type": "string",
+            "description": "Estado del recorrido",
+            "enum": [
+              "en_ruta",
+              "completado",
+              "cancelado"
+            ],
+            "example": "en_ruta"
+          },
+          "tiempo_total_estimado": {
+            "description": "Tiempo total estimado del recorrido",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TiempoEstimado"
+              }
+            ]
+          },
+          "stops": {
+            "description": "Array de paradas del despacho",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StopDto"
+            }
+          },
+          "total_paradas": {
+            "type": "string",
+            "description": "Total de paradas en el recorrido",
+            "example": "5"
+          },
+          "placa_vehiculo": {
+            "type": "string",
+            "description": "Placa del vehículo",
+            "example": "ABC-123"
+          },
+          "tipo_vehiculo": {
+            "type": "string",
+            "description": "Tipo de vehículo",
+            "example": "CAMIONETA"
+          },
+          "modelo": {
+            "type": "string",
+            "description": "Modelo del vehículo",
+            "example": "Toyota Hilux 2023"
+          },
+          "nombre_conductor": {
+            "type": "string",
+            "description": "Nombre del conductor",
+            "example": "Juan Pérez"
+          },
+          "telefono_conductor": {
+            "type": "string",
+            "description": "Teléfono del conductor",
+            "example": "+51 999 888 777"
+          },
+          "tipo_conservacion": {
+            "type": "string",
+            "description": "Tipo de conservación de la carga",
+            "example": "REFRIGERADO"
+          },
+          "ubicacion_origen": {
+            "type": "string",
+            "description": "Ubicación de origen",
+            "example": "Lima, Perú"
+          },
+          "peso_total": {
+            "type": "string",
+            "description": "Peso total de la carga",
+            "example": "1000.5"
+          }
+        },
+        "required": [
+          "id_despacho",
+          "fecha_despacho",
+          "estado_recorrido",
+          "tiempo_total_estimado",
+          "stops",
+          "total_paradas",
+          "placa_vehiculo",
+          "tipo_vehiculo",
+          "modelo",
+          "nombre_conductor",
+          "telefono_conductor",
+          "tipo_conservacion",
+          "ubicacion_origen",
+          "peso_total"
+        ]
+      },
+      "Coordenada": {
+        "type": "object",
+        "properties": {
+          "lat": {
+            "type": "number",
+            "example": -12.0464,
+            "description": "Latitud"
+          },
+          "lng": {
+            "type": "number",
+            "example": -77.0428,
+            "description": "Longitud"
+          }
+        },
+        "required": [
+          "lat",
+          "lng"
+        ]
+      },
+      "MonitoreoDto": {
+        "type": "object",
+        "properties": {
+          "id_despacho": {
+            "type": "string",
+            "description": "ID del despacho",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "ubicacion_actual": {
+            "description": "Ubicación actual",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Coordenada"
+              }
+            ]
+          },
+          "velocidad": {
+            "type": "number",
+            "description": "Velocidad",
+            "example": 100
+          },
+          "temperatura_carga": {
+            "type": "number",
+            "description": "Temperatura de la carga",
+            "example": 20
+          },
+          "combustible_restante": {
+            "type": "number",
+            "description": "Combustible restante",
+            "example": 100
+          },
+          "estado_compartimento": {
+            "type": "string",
+            "description": "Estado del compartimento",
+            "enum": [
+              "abierto",
+              "cerrado"
+            ],
+            "example": "abierto"
+          },
+          "distancia_recorrida": {
+            "type": "number",
+            "description": "Distancia recorrida",
+            "example": 100
+          },
+          "tiempo_transcurrido": {
+            "type": "string",
+            "description": "Tiempo transcurrido",
+            "example": "10:00:00"
+          }
+        },
+        "required": [
+          "id_despacho",
+          "ubicacion_actual",
+          "velocidad",
+          "temperatura_carga",
+          "combustible_restante",
+          "estado_compartimento",
+          "distancia_recorrida",
+          "tiempo_transcurrido"
+        ]
+      },
+      "CreateIncidenciaDto": {
+        "type": "object",
+        "properties": {
+          "id_monitoreo_ruta": {
+            "type": "string",
+            "description": "ID del monitoreo de ruta",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "tipo_incidencia": {
+            "type": "string",
+            "description": "Tipo de incidencia",
+            "enum": [
+              "accidente",
+              "averia_vehiculo",
+              "desvio_ruta",
+              "problema_temperatura",
+              "retraso",
+              "clima_adverso",
+              "problema_trafico",
+              "apertura_no_autorizada",
+              "otro"
+            ],
+            "example": "otro"
+          },
+          "severidad": {
+            "type": "string",
+            "description": "Severidad de la incidencia",
+            "enum": [
+              "baja",
+              "media",
+              "alta",
+              "critica"
+            ],
+            "example": "alta"
+          },
+          "descripcion": {
+            "type": "string",
+            "description": "Descripción de la incidencia",
+            "example": "Velocidad excedida en 20 km/h"
+          }
+        },
+        "required": [
+          "id_monitoreo_ruta",
+          "tipo_incidencia",
+          "severidad",
+          "descripcion"
+        ]
+      },
+      "SolucionIncidenciaDto": {
+        "type": "object",
+        "properties": {
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario que resuelve la incidencia. Si no se proporciona, se usa el usuario autenticado",
+            "example": "a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
+            "nullable": true
+          },
+          "descripcion_solucion": {
+            "type": "string",
+            "description": "Descripción de la solución aplicada",
+            "example": "Se realizó mantenimiento preventivo al vehículo"
+          },
+          "costo_solucion": {
+            "type": "number",
+            "description": "Costo de la solución en moneda local",
+            "example": 150.5,
+            "nullable": true
+          },
+          "tiempo_resolucion": {
+            "type": "string",
+            "description": "Tiempo que tomó resolver la incidencia",
+            "example": "2 hours 30 minutes",
+            "nullable": true
+          },
+          "observaciones": {
+            "type": "string",
+            "description": "Observaciones adicionales sobre la solución",
+            "example": "Se recomienda realizar mantenimiento preventivo cada 3 meses",
+            "nullable": true
+          }
+        },
+        "required": [
+          "descripcion_solucion"
+        ]
+      },
+      "IncidenciaDto": {
+        "type": "object",
+        "properties": {
+          "id_incidencia": {
+            "type": "string",
+            "description": "ID único de la incidencia",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "fecha_registro": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Fecha de registro de la incidencia",
+            "example": "2024-03-20T10:00:00Z"
+          },
+          "tipo_incidencia": {
+            "type": "string",
+            "description": "Tipo de incidencia",
+            "enum": [
+              "accidente",
+              "averia_vehiculo",
+              "desvio_ruta",
+              "problema_temperatura",
+              "retraso",
+              "clima_adverso",
+              "problema_trafico",
+              "apertura_no_autorizada",
+              "otro"
+            ],
+            "example": "otro"
+          },
+          "severidad": {
+            "type": "string",
+            "description": "Severidad de la incidencia",
+            "enum": [
+              "baja",
+              "media",
+              "alta",
+              "critica"
+            ],
+            "example": "alta"
+          },
+          "descripcion": {
+            "type": "string",
+            "description": "Descripción de la incidencia",
+            "example": "Velocidad excedida en 20 km/h"
+          },
+          "estado_incidencia": {
+            "type": "string",
+            "description": "Estado de la incidencia",
+            "enum": [
+              "pendiente",
+              "en_proceso",
+              "resuelta"
+            ],
+            "example": "pendiente"
+          },
+          "id_monitoreo_ruta": {
+            "type": "string",
+            "description": "ID del monitoreo de ruta",
+            "example": "123e4567-e89b-12d3-a456-426614174001"
+          },
+          "nombre_usuario": {
+            "type": "string",
+            "description": "Nombre del usuario que registró la incidencia",
+            "example": "Juan Pérez"
+          },
+          "placa_vehiculo": {
+            "type": "string",
+            "description": "Placa del vehículo",
+            "example": "ABC-123"
+          },
+          "modelo": {
+            "type": "string",
+            "description": "Modelo del vehículo",
+            "example": "Toyota Hilux 2023"
+          },
+          "marca": {
+            "type": "string",
+            "description": "Marca del vehículo",
+            "example": "Toyota"
+          },
+          "nombre_conductor": {
+            "type": "string",
+            "description": "Nombre del conductor",
+            "example": "Juan Pérez"
+          },
+          "telefono_conductor": {
+            "type": "string",
+            "description": "Teléfono del conductor",
+            "example": "+51 999 888 777"
+          },
+          "ubicacion_actual": {
+            "type": "object",
+            "description": "Ubicación actual del vehículo",
+            "example": {
+              "x": 10,
+              "y": 20
+            }
+          },
+          "timestamp_registro": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Timestamp del registro",
+            "example": "2024-03-20T10:00:00Z"
+          }
+        },
+        "required": [
+          "id_incidencia",
+          "fecha_registro",
+          "tipo_incidencia",
+          "severidad",
+          "descripcion",
+          "estado_incidencia",
+          "id_monitoreo_ruta",
+          "nombre_usuario",
+          "placa_vehiculo",
+          "modelo",
+          "marca",
+          "nombre_conductor",
+          "telefono_conductor",
+          "ubicacion_actual",
+          "timestamp_registro"
+        ]
+      },
+      "VehiculoDto": {
+        "type": "object",
+        "properties": {
+          "id_vehiculo": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "description": "ID del vehículo"
+          },
+          "modelo": {
+            "type": "string",
+            "example": "Hilux",
+            "description": "Modelo del vehículo"
+          },
+          "marca": {
+            "type": "string",
+            "example": "Toyota",
+            "description": "Marca del vehículo"
+          },
+          "placa": {
+            "type": "string",
+            "example": "ABC123",
+            "description": "Placa del vehículo"
+          },
+          "color": {
+            "type": "string",
+            "example": "Rojo",
+            "description": "Color del vehículo"
+          },
+          "año": {
+            "type": "number",
+            "example": 2020,
+            "description": "Año del vehículo"
+          },
+          "estado_vehiculo": {
+            "type": "boolean",
+            "example": true,
+            "description": "Estado del vehículo"
+          },
+          "foto_vehiculo": {
+            "type": "string",
+            "example": "https://ejemplo.com/foto.jpg",
+            "description": "URL de la foto del vehículo"
+          },
+          "capacidad_carga": {
+            "type": "string",
+            "example": "1000",
+            "description": "Capacidad de carga en kg"
+          },
+          "capacidad_combustible": {
+            "type": "string",
+            "example": "80",
+            "description": "Capacidad de combustible en litros"
+          },
+          "gps_imei": {
+            "type": "string",
+            "example": "123456789",
+            "description": "IMEI del GPS"
+          },
+          "gps_estado": {
+            "type": "boolean",
+            "example": true,
+            "description": "Estado del GPS"
+          },
+          "fecha_vencimiento_soat": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-02-05T05:00:00.000Z",
+            "description": "Fecha de vencimiento del SOAT"
+          },
+          "numero_soat": {
+            "type": "string",
+            "example": "SOAT123456",
+            "description": "Número del SOAT"
+          }
+        },
+        "required": [
+          "id_vehiculo",
+          "modelo",
+          "marca",
+          "placa",
+          "color",
+          "año",
+          "estado_vehiculo",
+          "foto_vehiculo",
+          "capacidad_carga",
+          "capacidad_combustible",
+          "gps_imei",
+          "gps_estado",
+          "fecha_vencimiento_soat",
+          "numero_soat"
+        ]
+      },
+      "ConductorDto": {
+        "type": "object",
+        "properties": {
+          "id_conductor": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "description": "ID del conductor"
+          },
+          "dni": {
+            "type": "string",
+            "example": "12345678",
+            "description": "DNI del conductor"
+          },
+          "nombre_conductor": {
+            "type": "string",
+            "example": "Juan Pérez",
+            "description": "Nombre del conductor"
+          },
+          "telefono_conductor": {
+            "type": "string",
+            "example": "987654321",
+            "description": "Teléfono del conductor"
+          },
+          "foto_conductor": {
+            "type": "string",
+            "example": "https://ejemplo.com/foto.jpg",
+            "description": "URL de la foto del conductor"
+          },
+          "email_conductor": {
+            "type": "string",
+            "example": "juan@ejemplo.com",
+            "description": "Email del conductor"
+          },
+          "fecha_nacimiento": {
+            "format": "date-time",
+            "type": "string",
+            "example": "1990-01-01",
+            "description": "Fecha de nacimiento del conductor"
+          },
+          "direccion_conductor": {
+            "type": "string",
+            "example": "Av. Ejemplo 123",
+            "description": "Dirección del conductor"
+          },
+          "tipo_licencia": {
+            "type": "string",
+            "example": "A3",
+            "description": "Tipo de licencia"
+          },
+          "fecha_vencimiento_licencia": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-02-05T05:00:00.000Z",
+            "description": "Fecha de vencimiento de la licencia"
+          },
+          "fecha_emision_licencia": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-02-05T05:00:00.000Z",
+            "description": "Fecha de emisión de la licencia"
+          },
+          "estado_conductor": {
+            "type": "boolean",
+            "example": true,
+            "description": "Estado del conductor"
+          }
+        },
+        "required": [
+          "id_conductor",
+          "dni",
+          "nombre_conductor",
+          "telefono_conductor",
+          "foto_conductor",
+          "email_conductor",
+          "fecha_nacimiento",
+          "direccion_conductor",
+          "tipo_licencia",
+          "fecha_vencimiento_licencia",
+          "fecha_emision_licencia",
+          "estado_conductor"
+        ]
+      },
+      "CargaDto": {
+        "type": "object",
+        "properties": {
+          "id_carga": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "description": "ID de la carga"
+          },
+          "tipo_conservacion": {
+            "type": "string",
+            "example": "Refrigerado",
+            "description": "Tipo de conservación"
+          },
+          "rango_inicial_temperatura_requerida": {
+            "type": "string",
+            "example": "-5",
+            "description": "Temperatura inicial requerida"
+          },
+          "rango_final_temperatura_requerida": {
+            "type": "string",
+            "example": "5",
+            "description": "Temperatura final requerida"
+          },
+          "peso_total": {
+            "type": "string",
+            "example": "1000",
+            "description": "Peso total en kg"
+          }
+        },
+        "required": [
+          "id_carga",
+          "tipo_conservacion",
+          "rango_inicial_temperatura_requerida",
+          "rango_final_temperatura_requerida",
+          "peso_total"
+        ]
+      },
+      "DespachoDatosDto": {
+        "type": "object",
+        "properties": {
+          "fecha_despacho": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2024-03-20T10:00:00Z",
+            "description": "Fecha del despacho"
+          },
+          "estado_recorrido": {
+            "type": "string",
+            "example": "en_ruta",
+            "description": "Estado del recorrido"
+          },
+          "vehiculo": {
+            "$ref": "#/components/schemas/VehiculoDto"
+          },
+          "conductor": {
+            "$ref": "#/components/schemas/ConductorDto"
+          },
+          "cargas": {
+            "description": "Lista de cargas del despacho",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CargaDto"
+            }
+          }
+        },
+        "required": [
+          "fecha_despacho",
+          "estado_recorrido",
+          "vehiculo",
+          "conductor",
+          "cargas"
+        ]
+      },
+      "PuntoRutaDto": {
+        "type": "object",
+        "properties": {
+          "orden_parada": {
+            "type": "number",
+            "example": 1,
+            "description": "Orden de la parada"
+          },
+          "nombre_origen": {
+            "type": "string",
+            "example": "Almacén Central",
+            "description": "Nombre del punto de origen"
+          },
+          "coordenada_origen": {
+            "description": "Coordenadas del punto de origen",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Coordenada"
+              }
+            ]
+          },
+          "nombre_destino": {
+            "type": "string",
+            "example": "Tienda 1",
+            "description": "Nombre del punto de destino"
+          },
+          "coordenada_destino": {
+            "description": "Coordenadas del punto de destino",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Coordenada"
+              }
+            ]
+          },
+          "nombre_ruta": {
+            "type": "string",
+            "example": "Ruta Principal",
+            "description": "Nombre de la ruta"
+          },
+          "recorrido_km": {
+            "type": "string",
+            "example": "10.5",
+            "description": "Recorrido en kilómetros"
+          },
+          "distancia_km": {
+            "type": "string",
+            "example": "8.2",
+            "description": "Distancia en kilómetros"
+          },
+          "tiempo_estimado": {
+            "description": "Tiempo estimado de recorrido",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TiempoEstimado"
+              }
+            ]
+          },
+          "ruta_planificada": {
+            "description": "Ruta planificada con puntos intermedios",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Coordenada"
+            }
+          }
+        },
+        "required": [
+          "orden_parada",
+          "nombre_origen",
+          "coordenada_origen",
+          "nombre_destino",
+          "coordenada_destino",
+          "nombre_ruta",
+          "recorrido_km",
+          "distancia_km",
+          "tiempo_estimado",
+          "ruta_planificada"
+        ]
+      },
+      "PuntoVisitadoDto": {
+        "type": "object",
+        "properties": {
+          "orden_parada": {
+            "type": "number",
+            "example": 1,
+            "description": "Orden de la parada"
+          },
+          "nombre_punto": {
+            "type": "string",
+            "example": "Tienda 1",
+            "description": "Nombre del punto de entrega"
+          },
+          "coordenada_punto": {
+            "description": "Coordenadas del punto de entrega",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Coordenada"
+              }
+            ]
+          },
+          "visitado": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indica si el punto ya fue visitado"
+          }
+        },
+        "required": [
+          "orden_parada",
+          "nombre_punto",
+          "coordenada_punto",
+          "visitado"
+        ]
+      },
+      "UltimoMonitoreoDto": {
+        "type": "object",
+        "properties": {
+          "id_monitoreo_ruta": {
+            "type": "string",
+            "description": "ID del monitoreo de ruta",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "ubicacion_actual": {
+            "type": "object",
+            "description": "Ubicación actual del vehículo",
+            "example": {
+              "x": -77.0428,
+              "y": -12.0464
+            }
+          }
+        },
+        "required": [
+          "id_monitoreo_ruta",
+          "ubicacion_actual"
+        ]
+      },
+      "ErrorResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "description": "Estado de la respuesta",
+            "example": false,
+            "nullable": false
+          },
+          "message": {
+            "type": "string",
+            "description": "Mensaje de error",
+            "example": "Error interno del servidor",
+            "nullable": false
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ]
+      },
+      "UpdateIncidenciaDto": {
+        "type": "object",
+        "properties": {
+          "estado_incidencia": {
+            "type": "string",
+            "description": "Estado de la incidencia",
+            "enum": [
+              "pendiente",
+              "en_proceso",
+              "resuelta"
+            ],
+            "example": "en_proceso"
+          }
+        },
+        "required": [
+          "estado_incidencia"
+        ]
+      },
+      "IncidenciaDatosDto": {
+        "type": "object",
+        "properties": {
+          "fecha_registro": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2024-03-20T10:00:00Z",
+            "description": "Fecha de registro de la incidencia"
+          },
+          "tipo_incidencia": {
+            "type": "string",
+            "example": "temperatura",
+            "description": "Tipo de incidencia",
+            "enum": [
+              "accidente",
+              "averia_vehiculo",
+              "desvio_ruta",
+              "problema_temperatura",
+              "retraso",
+              "clima_adverso",
+              "problema_trafico",
+              "apertura_no_autorizada",
+              "otro"
+            ]
+          },
+          "severidad": {
+            "type": "string",
+            "example": "alta",
+            "description": "Severidad de la incidencia",
+            "enum": [
+              "baja",
+              "media",
+              "alta",
+              "critica"
+            ]
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "La temperatura ha superado el límite permitido",
+            "description": "Descripción de la incidencia"
+          },
+          "estado_incidencia": {
+            "type": "string",
+            "example": "pendiente",
+            "description": "Estado de la incidencia",
+            "enum": [
+              "pendiente",
+              "en_proceso",
+              "resuelta"
+            ]
+          },
+          "nombre_usuario": {
+            "type": "string",
+            "example": "Juan Pérez",
+            "description": "Nombre del usuario que registró la incidencia"
+          },
+          "ubicacion_actual": {
+            "description": "Ubicación actual del vehículo",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Coordenada"
+              }
+            ]
+          },
+          "velocidad": {
+            "type": "number",
+            "example": 100,
+            "description": "Velocidad del vehículo"
+          },
+          "temperatura_carga": {
+            "type": "number",
+            "example": 25.5,
+            "description": "Temperatura de la carga"
+          },
+          "combustible_restante": {
+            "type": "number",
+            "example": 100,
+            "description": "Combustible restante"
+          },
+          "estado_compartimento": {
+            "type": "string",
+            "example": "cerrado",
+            "description": "Estado del compartimento",
+            "enum": [
+              "abierto",
+              "cerrado"
+            ]
+          },
+          "distancia_recorrida": {
+            "type": "number",
+            "example": 100,
+            "description": "Distancia recorrida"
+          },
+          "tiempo_transcurrido": {
+            "description": "Tiempo transcurrido",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TiempoEstimado"
+              }
+            ]
+          },
+          "placa": {
+            "type": "string",
+            "example": "ABC123",
+            "description": "Placa del vehículo"
+          },
+          "modelo": {
+            "type": "string",
+            "example": "Toyota",
+            "description": "Modelo del vehículo"
+          },
+          "nombre_conductor": {
+            "type": "string",
+            "example": "Carlos Rodríguez",
+            "description": "Nombre del conductor"
+          },
+          "telefono_conductor": {
+            "type": "string",
+            "example": "987654321",
+            "description": "Teléfono del conductor"
+          }
+        },
+        "required": [
+          "fecha_registro",
+          "tipo_incidencia",
+          "severidad",
+          "descripcion",
+          "estado_incidencia",
+          "nombre_usuario",
+          "ubicacion_actual",
+          "velocidad",
+          "temperatura_carga",
+          "combustible_restante",
+          "estado_compartimento",
+          "distancia_recorrida",
+          "tiempo_transcurrido",
+          "placa",
+          "modelo",
+          "nombre_conductor",
+          "telefono_conductor"
+        ]
+      },
+      "IncidenciaRelacionadaDto": {
+        "type": "object",
+        "properties": {
+          "id_incidencia": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "description": "ID de la incidencia relacionada"
+          },
+          "fecha_registro": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2024-03-20T10:00:00Z",
+            "description": "Fecha de registro de la incidencia"
+          },
+          "tipo_incidencia": {
+            "type": "string",
+            "example": "temperatura",
+            "description": "Tipo de incidencia",
+            "enum": [
+              "accidente",
+              "averia_vehiculo",
+              "desvio_ruta",
+              "problema_temperatura",
+              "retraso",
+              "clima_adverso",
+              "problema_trafico",
+              "apertura_no_autorizada",
+              "otro"
+            ]
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "La temperatura ha superado el límite permitido",
+            "description": "Descripción de la incidencia"
+          },
+          "tipo_relacion": {
+            "type": "string",
+            "example": "Mismo conductor",
+            "description": "Tipo de relación encontrada"
+          },
+          "tiempo_transcurrido": {
+            "description": "Tiempo transcurrido desde el registro de la incidencia",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TiempoEstimado"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id_incidencia",
+          "fecha_registro",
+          "tipo_incidencia",
+          "descripcion",
+          "tipo_relacion",
+          "tiempo_transcurrido"
+        ]
+      },
+      "CreateDespachoDto": {
+        "type": "object",
+        "properties": {
+          "id_resultado_condicion_despacho": {
+            "type": "string",
+            "description": "ID del resultado de la condición del despacho"
+          },
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario que crea el despacho"
+          },
+          "estado_recorrido": {
+            "type": "string",
+            "description": "Estado del recorrido",
+            "enum": [
+              "en_ruta",
+              "completada",
+              "cancelada"
+            ],
+            "default": "en_ruta"
+          },
+          "observaciones": {
+            "type": "string",
+            "description": "Observaciones del despacho"
+          }
+        },
+        "required": [
+          "id_resultado_condicion_despacho",
+          "id_usuario",
+          "estado_recorrido"
+        ]
+      },
+      "CreateRechazoDespachoDto": {
+        "type": "object",
+        "properties": {
+          "id_resultado_condicion_despacho": {
+            "type": "string",
+            "description": "ID del resultado de la condición del despacho"
+          },
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario que crea el rechazo de despacho"
+          },
+          "motivo_rechazo": {
+            "type": "string",
+            "description": "Motivo del rechazo",
+            "maxLength": 200
+          },
+          "tipo_accion": {
+            "type": "string",
+            "description": "Tipo de acción a realizar",
+            "enum": [
+              "reasignar_vehiculo",
+              "reasignar_conductor",
+              "mover_carga",
+              "reprogramar",
+              "cancelar"
+            ]
+          },
+          "estado_accion": {
+            "type": "string",
+            "description": "Estado actual de la acción",
+            "enum": [
+              "pendiente",
+              "en_proceso",
+              "completada",
+              "cancelada"
+            ],
+            "default": "pendiente"
+          }
+        },
+        "required": [
+          "id_resultado_condicion_despacho",
+          "id_usuario",
+          "motivo_rechazo",
+          "tipo_accion"
+        ]
+      },
+      "UserSearchDto": {
+        "type": "object",
+        "properties": {
+          "id_usuario": {
+            "type": "string",
+            "description": "ID del usuario",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "nombre_usuario": {
+            "type": "string",
+            "description": "Nombre de usuario",
+            "example": "admin"
+          },
+          "rol": {
+            "type": "string",
+            "description": "Rol del usuario",
+            "enum": [
+              "operador",
+              "admin",
+              "supervisor",
+              "monitor"
+            ],
+            "example": "admin"
+          }
+        },
+        "required": [
+          "id_usuario",
+          "nombre_usuario",
+          "rol"
+        ]
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "nombre_usuario": {
+            "type": "string",
+            "description": "Nombre de usuario",
+            "example": "nuevo_usuario"
+          },
+          "contrasena": {
+            "type": "string",
+            "description": "Contraseña del usuario",
+            "example": "password123"
+          },
+          "rol": {
+            "type": "string",
+            "description": "Rol del usuario",
+            "enum": [
+              "operador",
+              "admin",
+              "supervisor",
+              "monitor"
+            ],
+            "example": "operador"
+          }
+        },
+        "required": [
+          "nombre_usuario",
+          "contrasena",
+          "rol"
+        ]
+      },
+      "LoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token JWT generado",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "nombre_usuario": {
+            "type": "string",
+            "description": "Nombre de usuario",
+            "example": "admin"
+          },
+          "contrasena": {
+            "type": "string",
+            "description": "Contraseña del usuario",
+            "example": "password123"
+          }
+        },
+        "required": [
+          "nombre_usuario",
+          "contrasena"
+        ]
+      },
+      "UserProfileDto": {
+        "type": "object",
+        "properties": {
+          "nombre_usuario": {
+            "type": "string",
+            "description": "Nombre de usuario",
+            "example": "admin"
+          },
+          "rol": {
+            "type": "string",
+            "description": "Rol del usuario",
+            "enum": [
+              "operador",
+              "admin",
+              "supervisor",
+              "monitor"
+            ],
+            "example": "admin"
+          }
+        },
+        "required": [
+          "nombre_usuario",
+          "rol"
+        ]
+      },
+      "OrdenPendienteDto": {
+        "type": "object",
+        "properties": {
+          "id_entrega": {
+            "type": "string",
+            "description": "ID único de la entrega",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "nombre_punto": {
+            "type": "string",
+            "description": "Nombre del punto de entrega",
+            "example": "Restaurante El Buen Sabor"
+          },
+          "coordenada_punto": {
+            "type": "string",
+            "description": "Coordenadas del punto de entrega",
+            "example": "(12.3456,-78.9012)"
+          },
+          "fecha_entrega": {
+            "type": "string",
+            "description": "Fecha de entrega programada",
+            "example": "2024-01-15T10:30:00.000Z"
+          },
+          "total_subentregas": {
+            "type": "number",
+            "description": "Total de subentregas asociadas",
+            "example": 3
+          }
+        },
+        "required": [
+          "id_entrega",
+          "nombre_punto",
+          "coordenada_punto",
+          "fecha_entrega",
+          "total_subentregas"
+        ]
+      },
+      "OrdenesPendientesResponseDto": {
+        "type": "object",
+        "properties": {
+          "ordenes": {
+            "description": "Lista de órdenes pendientes",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrdenPendienteDto"
+            }
+          },
+          "total": {
+            "type": "number",
+            "description": "Total de órdenes pendientes",
+            "example": 5
+          }
+        },
+        "required": [
+          "ordenes",
+          "total"
+        ]
+      },
+      "RegistrarEntregaDto": {
+        "type": "object",
+        "properties": {
+          "idEntrega": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "firmaCliente": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/bucket/firma123.jpg"
+          },
+          "evidencia": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/bucket/evidencia123.jpg"
+          },
+          "observaciones": {
+            "type": "string",
+            "example": "Cliente no estaba presente, entrega dejada con vecino."
+          }
+        },
+        "required": [
+          "idEntrega",
+          "firmaCliente",
+          "evidencia",
+          "observaciones"
+        ]
+      }
+    }
+  }
+}

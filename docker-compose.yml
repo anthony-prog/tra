@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=transporte
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MQTT_HOST=mqtt
+      - MQTT_PORT=1883
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      mqtt:
+        condition: service_started
+
+  # Servicio para inicializar la base de datos con datos CSV
+  db-init:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    environment:
+      - DB_USER=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_PASSWORD=postgres
+      - DB_NAME=transporte
+      - NODE_ENV=production
+    volumes:
+      - ./apps/backend/src:/app/src
+      - ./apps/backend/package.json:/app/package.json
+      - ./apps/backend/package-lock.json:/app/package-lock.json
+      - ./apps/backend/tsconfig.json:/app/tsconfig.json
+      - ./apps/backend/tsconfig.build.json:/app/tsconfig.build.json
+      - ./apps/backend/nest-cli.json:/app/nest-cli.json
+      # Montar la carpeta datos-csv donde están los archivos CSV
+      - ./apps/backend/datos-csv:/app/datos-csv
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["sh", "-c", "sleep 45 && npx ts-node src/scripts/import-csv.ts --recreate-tables=false"]
+    restart: "no"
+
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=transporte
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./apps/backend/init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  mqtt:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - mqtt_data:/mosquitto/data
+      - mqtt_log:/mosquitto/log
+      - ./apps/backend/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+volumes:
+  postgres_data:
+  redis_data:
+  mqtt_data:
+  mqtt_log:
